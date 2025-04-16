@@ -14,16 +14,16 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-import pytz  # Import the pytz library
+import pytz
 import shutil
 
 # Constants
 DB_FILE = "uber_wallet.db"
 DEFAULT_FUEL_EFFICIENCY = 25
-DEFAULT_PETROL_PRICE = 180.0
+DEFAULT_PETROL_PRICE = 176.58
 TRIP_FIELDS = ['date', 'time', 'end_time', 'duration', 'cash_collected', 'fare', 'service_fee', 'taxes', 'distance_km', 'tips', 'earnings', 'trip_balance', 'discount', 'discount_rate', 'earnings_per_km', 'fuel_used', 'estimated_fuel_cost', 'service_fee_percent', 'taxes_percent']
 FUEL_LOG_FIELDS = ['date', 'time', 'station', 'location', 'amount', 'price_per_liter', 'liters']
-MAX_TANK_CAPACITY = 60  # Example: Define your vehicle's tank capacity here
+MAX_TANK_CAPACITY = 15
 
 # Configure logging
 logging.basicConfig(filename='uber_wallet.log', level=logging.INFO,
@@ -554,7 +554,7 @@ class UberWallet:
                 for log in self.fuel_logs:
                     cursor.execute(f"""
                         INSERT INTO fuel_logs ({', '.join(FUEL_LOG_FIELDS)})
-                        VALUES (?, ?, ?, ?, ?, ?)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
                     """, [log.get(field) for field in FUEL_LOG_FIELDS])
                 logging.info(f"Saved {len(self.fuel_logs)} fuel logs to the database.")
 
